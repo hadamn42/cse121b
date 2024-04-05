@@ -15,11 +15,11 @@ const pokeDisplay = (pokeymans) => {
         pokeElement.appendChild(pokeArticle);
         let pokeData = getPokemon(pokemon.url);
         pokeResults = pokeData;
-        // console.log("PokeData: ", pokeResults);
-        // let pokePic = document.createElement("img");
-        // pokePic.setAttribute("src", `${pokeData.sprites.fron_default}`);
-        // pokePic.setAttribute("alt", `${pokeName}`);
-        // pokeArticle.appendChild(pokePic);
+        console.log("PokeData: ", pokeResults);
+        let pokePic = document.createElement("img");
+        pokePic.setAttribute("src", `${pokeData.sprites.fron_default}`);
+        pokePic.setAttribute("alt", `${pokeName}`);
+        pokeArticle.appendChild(pokePic);
         let pokeP = document.createElement("p");
         pokeP.innerText = pokeResults.name;
         pokeArticle.appendChild(pokeP);
