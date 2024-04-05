@@ -17,7 +17,7 @@ const pokeDisplay = (pokeymans) => {
         pokeResults = pokeData;
         console.log("PokeData: ", pokeResults);
         let pokePic = document.createElement("img");
-        pokePic.setAttribute("src", `${pokeData.sprites.fron_default}`);
+        pokePic.setAttribute("src", `${pokeData.sprites.front_default}`);
         pokePic.setAttribute("alt", `${pokeName}`);
         pokeArticle.appendChild(pokePic);
         let pokeP = document.createElement("p");
