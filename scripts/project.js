@@ -1,30 +1,24 @@
 const pokeElement = document.querySelector("#pokemon");
 const pokeURL = "https://pokeapi.co/api/v2/pokemon";
-// let pokeResults = [];
-// let pokeList = [];
+let pokeLost = [];
 
-const pokeDisplay = (pokeymans) => {
-    // console.log(pokeymans);
-    let pokeList = pokeymans.results;
-    pokeList.forEach(pokemon => {
+const pokeDisplay = (pokey) => {
+    pokey.forEach(pokemon => {
+        console.log('pokemonlisto', pokemon);
         let pokeArticle = document.createElement("article");
         let pokeHeader = document.createElement("h2");
-        let pokeName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+        let pokeName = pokemon[0];
         pokeHeader.innerText = pokeName;
         pokeArticle.appendChild(pokeHeader);
         pokeElement.appendChild(pokeArticle);
-        let pokeData = getPokemon(pokemon.url)
-        pokeData.then((pokeData) => {
-            console.log("PokeData: ", pokeData);
-            let pokePic = document.createElement("img");
-            console.log("Poke Img: ", pokeData.sprites.front_default); 
-            pokePic.setAttribute("src", `${pokeData.sprites.front_default}`);
-            pokePic.setAttribute("alt", `${pokeName}`);
-            pokeArticle.appendChild(pokePic);
-            let pokeP = document.createElement("p");
-            pokeP.innerText = pokeData.name;
-            pokeArticle.appendChild(pokeP);
-        })
+        let pokePic = document.createElement("img");
+        pokePic.setAttribute("src", `${pokemon[1]}`);
+        pokePic.setAttribute("alt", `${pokeName}`);
+        pokeArticle.appendChild(pokePic);
+        let pokeP = document.createElement("p");
+        pokeP.innerText = pokemon[2];
+        // pokeData.types[0].type.name.charAt(0).toUpperCase() + pokeData.types[0].type.name.slice(1);
+        pokeArticle.appendChild(pokeP);
     });
 }
 
@@ -32,7 +26,26 @@ const getPokemonList = async (pokeMons) => {
     const response = await fetch (pokeMons);
     if (response.ok){
         const data = await response.json();
-        pokeDisplay(data);
+        let pokeList = data.results;
+        pokeList.forEach(poke => {            
+            let poketData = getPokemon(poke.url);
+            poketData.then((poketData) =>{
+                let monArray = [];
+                monArray.push(poke.name);
+                monArray.push(poketData.sprites.front_default);
+                if (poketData.types.length > 1){
+                    for( let i = 0; i < poketData.types.length; i++){
+                        monArray.push(poketData.types[i].type.name);
+                    }
+                }
+                else{
+                    monArray.push(poketData.types[0].type.name);
+                }
+                pokeLost.push(monArray);
+            })
+        })
+        console.log("Pokemon array", pokeLost);
+        pokeDisplay(pokeLost);
     }
 }
 
