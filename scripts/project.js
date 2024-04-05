@@ -7,7 +7,7 @@ const pokeDisplay = (pokey) => {
         console.log('pokemonlisto', pokemon);
         let pokeArticle = document.createElement("article");
         let pokeHeader = document.createElement("h2");
-        let pokeName = pokemon[0];
+        let pokeName = pokemon[0].charAt(0).toUpperCase() + pokemon[0].slice(1);
         pokeHeader.innerText = pokeName;
         pokeArticle.appendChild(pokeHeader);
         pokeElement.appendChild(pokeArticle);
@@ -16,8 +16,7 @@ const pokeDisplay = (pokey) => {
         pokePic.setAttribute("alt", `${pokeName}`);
         pokeArticle.appendChild(pokePic);
         let pokeP = document.createElement("p");
-        pokeP.innerText = pokemon[2];
-        // pokeData.types[0].type.name.charAt(0).toUpperCase() + pokeData.types[0].type.name.slice(1);
+        pokeP.innerText = pokemon[2].charAt(0).toUpperCase() + pokemon[2].slice(1);
         pokeArticle.appendChild(pokeP);
     });
 }
@@ -27,25 +26,12 @@ const getPokemonList = async (pokeMons) => {
     if (response.ok){
         const data = await response.json();
         let pokeList = data.results;
-        pokeList.forEach(poke => {            
-            let poketData = getPokemon(poke.url);
-            poketData.then((poketData) =>{
-                let monArray = [];
-                monArray.push(poke.name);
-                monArray.push(poketData.sprites.front_default);
-                if (poketData.types.length > 1){
-                    for( let i = 0; i < poketData.types.length; i++){
-                        monArray.push(poketData.types[i].type.name);
-                    }
-                }
-                else{
-                    monArray.push(poketData.types[0].type.name);
-                }
-                pokeLost.push(monArray);
-            })
-        })
-        console.log("Pokemon array", pokeLost);
-        pokeDisplay(pokeLost);
+        let kun = buildPokeArray(pokeList);
+        kun.then((kun)=> {
+            pokeLost = kun;
+            console.log("Pokemon array", pokeLost);
+            pokeDisplay(kun);
+        });
     }
 }
 
@@ -55,6 +41,29 @@ const getPokemon = async (pokeMon) => {
         const data = await response.json();
         return data;
     }
+}
+
+async function buildPokeArray(pokeList){
+    let testArray = []
+    pokeList.forEach(poke => {            
+        let poketData = getPokemon(poke.url);
+        poketData.then((poketData) =>{
+            let monArray = [];
+            monArray.push(poke.name);
+            monArray.push(poketData.sprites.front_default);
+            if (poketData.types.length > 1){
+                for( let i = 0; i < poketData.types.length; i++){
+                    monArray.push(poketData.types[i].type.name);
+                }
+            }
+            else{
+                monArray.push(poketData.types[0].type.name);
+            }
+            testArray.push(monArray);
+            
+        })
+    })
+    return testArray;
 }
 
 
