@@ -1,6 +1,6 @@
 const pokeElement = document.querySelector("#pokemon");
 const pokeURL = "https://pokeapi.co/api/v2/pokemon";
-let pokeResults = [];
+// let pokeResults = [];
 // let pokeList = [];
 
 const pokeDisplay = (pokeymans) => {
@@ -13,17 +13,18 @@ const pokeDisplay = (pokeymans) => {
         pokeHeader.innerText = pokeName;
         pokeArticle.appendChild(pokeHeader);
         pokeElement.appendChild(pokeArticle);
-        let pokeData = getPokemon(pokemon.url);
-        pokeResults = pokeData;
-        console.log("PokeData: ", pokeResults);
-        let pokePic = document.createElement("img");
-        console.log("Poke Img: ", pokeData.sprites.front_default); 
-        pokePic.setAttribute("src", `${pokeData.sprites.front_default}`);
-        pokePic.setAttribute("alt", `${pokeName}`);
-        pokeArticle.appendChild(pokePic);
-        let pokeP = document.createElement("p");
-        pokeP.innerText = pokeResults.name;
-        pokeArticle.appendChild(pokeP);
+        let pokeData = getPokemon(pokemon.url)
+        pokeData.then((pokeData) => {
+            console.log("PokeData: ", pokeData);
+            let pokePic = document.createElement("img");
+            console.log("Poke Img: ", pokeData.sprites.front_default); 
+            pokePic.setAttribute("src", `${pokeData.sprites.front_default}`);
+            pokePic.setAttribute("alt", `${pokeName}`);
+            pokeArticle.appendChild(pokePic);
+            let pokeP = document.createElement("p");
+            pokeP.innerText = pokeData.name;
+            pokeArticle.appendChild(pokeP);
+        })
     });
 }
 
