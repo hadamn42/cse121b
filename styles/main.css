@@ -266,16 +266,25 @@ footer {
     justify-content: center;
 }
 
-#temples h4 {
+#temples h4, #pokemon h4 {
     color: navy;
     font-size: smaller;
 }
 
+#pokemon h3 {
+    color: navy;
+}
 
 #temples img {
     width: 250px;
     height: auto;
     box-shadow: 0 0 30px #777;
+    margin: .5rem;
+}
+
+#pokemon article {
+    width: 250px;
+    height: auto;
     margin: .5rem;
 }
 
